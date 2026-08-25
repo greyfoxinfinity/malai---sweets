@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://malai.example.com"),
+  metadataBase: new URL(process.env.SITE_URL || "https://malai.example.com"),
   title: { default: "Malai — Sweets, Snacks & Desserts", template: "%s | Malai" },
   description:
     "Discover handcrafted sweets, snacks, ice cream, and desserts made for every occasion.",
