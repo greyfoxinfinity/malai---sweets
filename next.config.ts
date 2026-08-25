@@ -1,8 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "i0.wp.com" },
+      { protocol: "https", hostname: "debrownieexpress.nl" },
+      { protocol: "https", hostname: "aromaticessence.co" },
+      { protocol: "https", hostname: "cf-img-a-in.tosshub.com" },
+      { protocol: "https", hostname: "sanwariyasweets.in" },
+      { protocol: "https", hostname: "thecinnamonjar.com" },
+      { protocol: "https", hostname: "media-assets.swiggy.com" },
+      { protocol: "https", hostname: "shop.fourall.ca" },
+    ],
+  },
 };
 
 export default nextConfig;
