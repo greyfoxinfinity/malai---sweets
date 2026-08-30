@@ -13,18 +13,35 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "https://malai.example.com"),
-  title: { default: "Malai — Sweets, Snacks & Desserts", template: "%s | Malai" },
+  title: {
+    default: "Malai — Sweets, Snacks & Desserts",
+    template: "%s | Malai",
+  },
   description:
-    "Discover handcrafted sweets, snacks, ice cream, and desserts made for every occasion.",
+    "Discover handcrafted sweets, snacks, ice cream, and desserts made for every occasion in Chattogram, Bangladesh.",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Malai",
+    title: "Malai — Sweets, Snacks & Desserts",
+    description:
+      "Discover handcrafted sweets, snacks, ice cream, and desserts made for every occasion.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Malai — Sweets, Snacks & Desserts",
+    description:
+      "Discover handcrafted sweets, snacks, ice cream, and desserts made for every occasion.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      className="h-full antialiased"
-    >
+    <html lang="en" data-scroll-behavior="smooth" className="h-full antialiased">
       <body className="min-h-full flex flex-col overflow-x-hidden">
         <AuthProvider>
           <SettingsProvider>

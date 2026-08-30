@@ -44,19 +44,26 @@ export default function CartProvider({ children }: { children: React.ReactNode }
   const addItem = useCallback((product: Product) => {
     setItems((current) => {
       const existing = current.find((item) => item.id === product.id);
-      return existing
-        ? current.map((item) =>
-            item.id === product.id && item.quantity < product.stock ? { ...item, quantity: item.quantity + 1 } : item,
-          )
-        : [...current, { ...product, quantity: 1 }];
+      if (existing) {
+        const maxQty = Math.min(existing.quantity + 1, product.stock);
+        return current.map((item) =>
+          item.id === product.id ? { ...item, quantity: maxQty } : item,
+        );
+      }
+      if (product.stock <= 0) return current;
+      return [...current, { ...product, quantity: 1 }];
     });
   }, []);
 
   const updateQuantity = useCallback((id: string, quantity: number) => {
+    if (quantity <= 0) {
+      setItems((current) => current.filter((item) => item.id !== id));
+      return;
+    }
     setItems((current) =>
-      quantity <= 0
-        ? current.filter((item) => item.id !== id)
-        : current.map((item) => (item.id === id ? { ...item, quantity } : item)),
+      current.map((item) =>
+        item.id === id ? { ...item, quantity: Math.min(quantity, item.stock) } : item,
+      ),
     );
   }, []);
 

@@ -1,31 +1,44 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
+import { NextResponse, type NextRequest } from "next/server";
 
-const adminRoutes = ["/admin"];
-const protectedApiRoutes = ["/api/products", "/api/orders", "/api/settings"];
+const authHandler = auth((req) => {
+  const { pathname } = req.nextUrl;
+  const method = req.method;
 
-export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  if (pathname.startsWith("/admin")) {
+    if (!req.auth || req.auth.user?.role !== "admin") {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
 
-  const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route));
-  const isProtectedApi = protectedApiRoutes.some((route) => pathname.startsWith(route));
-
-  if (isAdminRoute || isProtectedApi) {
-    const sessionToken =
-      request.cookies.get("authjs.session-token")?.value ||
-      request.cookies.get("__Secure-authjs.session-token")?.value;
-
-    if (!sessionToken) {
-      if (isAdminRoute) {
-        return NextResponse.redirect(new URL("/login", request.url));
-      }
+  if (pathname.startsWith("/api/products") && method !== "GET") {
+    if (!req.auth || req.auth.user?.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
 
-  return NextResponse.next();
+  if (pathname.startsWith("/api/orders")) {
+    if (!req.auth || req.auth.user?.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  }
+
+  if (pathname.startsWith("/api/settings") && method !== "GET") {
+    if (!req.auth || req.auth.user?.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  }
+});
+
+export function proxy(request: NextRequest) {
+  return (authHandler as (req: NextRequest) => Response | NextResponse)(request);
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/products/:path*", "/api/orders/:path*", "/api/settings/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/api/products/:path*",
+    "/api/orders/:path*",
+    "/api/settings/:path*",
+  ],
 };

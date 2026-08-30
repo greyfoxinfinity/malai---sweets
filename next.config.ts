@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "thecinnamonjar.com" },
       { protocol: "https", hostname: "media-assets.swiggy.com" },
       { protocol: "https", hostname: "shop.fourall.ca" },
+      { protocol: "https", hostname: "blob.vercel-storage.com" },
+      { protocol: "https", hostname: "*.vercel-storage.com" },
     ],
   },
 };

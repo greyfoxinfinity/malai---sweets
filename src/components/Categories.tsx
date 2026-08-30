@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const categories = [
@@ -34,13 +35,11 @@ export default function Categories() {
       className="bg-[#f7f5f1] px-6 py-16 md:px-10 md:py-24 lg:px-16"
     >
       <div className="mx-auto max-w-7xl">
-
         {/* Header */}
         <div className="mb-12">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#8b5e3c]">
             Explore Malai
           </p>
-
           <h2 className="text-3xl font-semibold tracking-tight text-black sm:text-4xl md:text-5xl">
             Something for every craving.
           </h2>
@@ -54,34 +53,24 @@ export default function Categories() {
               key={category.name}
               className="group relative aspect-[4/5] overflow-hidden rounded-2xl text-left"
             >
-              {/* Image */}
-              <img
+              <Image
                 src={category.image}
                 alt={category.name}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-
-              {/* Overlay */}
               <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/40" />
-
-              {/* Content */}
               <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                <h3 className="text-2xl font-semibold">
-                  {category.name}
-                </h3>
-
+                <h3 className="text-2xl font-semibold">{category.name}</h3>
                 <p className="mt-2 max-w-[220px] text-sm leading-relaxed text-white/80">
                   {category.description}
                 </p>
-
-                <span className="mt-5 inline-block text-sm font-medium">
-                  Explore →
-                </span>
+                <span className="mt-5 inline-block text-sm font-medium">Explore →</span>
               </div>
             </Link>
           ))}
         </div>
-
       </div>
     </section>
   );
